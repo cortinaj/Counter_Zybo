@@ -23,6 +23,8 @@
 module binary_up_counter #(parameter N = 4)(
     input clk,
     input rst,
+    input dir,
+    input pause,
     output reg [N-1:0] count
     );
     
@@ -30,8 +32,12 @@ module binary_up_counter #(parameter N = 4)(
         if(rst) begin
             count <= 0;
             end
-        else
-            count <= count +1'b1;
+        else if(!pause) begin
+            if (dir == 0)
+                count <= count + 1;
+            else
+                count <= count  - 1;
+        end
     end
             
 endmodule

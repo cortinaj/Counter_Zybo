@@ -30,18 +30,20 @@ module counter(
     wire clk_1Hz;
     wire [3:0] bin_up;
     
-    //Generate the 1Hz clock
+   
     
     freq_divider #(.DIVISOR(50_000_000)) div1Hz(.clk_in(clk),
-                                                .rst(sw[3]),
+                                                .rst(sw[0]),
                                                 .clk_out(clk_1Hz)
                                                 );
                                                 
     binary_up_counter bin(.clk(clk_1Hz),
-                          .rst(sw[3]),
+                          .rst(sw[0]),
+                          .dir(sw[1]),
+                          .pause(sw[2]),
                           .count(bin_up)
                           );
                           
-    assign led = (sw == 4'b0010) ? bin_up : 4'b0000;
+    assign led = (sw[3]) ? bin_up : 4'b0000;
     
 endmodule
